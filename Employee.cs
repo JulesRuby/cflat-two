@@ -9,6 +9,7 @@ namespace InheritanceLab
     {
         // This should technically be fine since auto implemented properties implicitly create an instance backed private field
         // but also this means that the class diagram file does not display the private fields, so maybe I'll do this the longer way?
+        protected string test;
         public required string Id { get; set; }
         public required string Name { get; set; }
         public required string Address { get; set; }

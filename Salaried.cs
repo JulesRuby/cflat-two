@@ -5,7 +5,16 @@ using System.Text;
 
 namespace InheritanceLab
 {
-    public class Salaried
+    internal class Salaried : Employee
     {
+        public double Salary { get; set; }
+        public double Sin { get; set; }
+
+        public Salaried(string id, string name, string address, string phone, long sin, double salary) : base(id, name, address, phone)
+        {
+            Salary = salary;
+            Sin = sin;
+
+        }
     }
 }
