@@ -12,6 +12,9 @@
             foreach (string line in testFileLines) {
                 Console.WriteLine(line);
             }
+
+            PayrollSystem.createEmployeeList("res/employees.txt");
+
             Console.ReadLine();
         }
     }
