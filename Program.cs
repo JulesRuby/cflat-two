@@ -7,6 +7,7 @@
             Console.WriteLine("Hello, World!");
             Console.WriteLine("WHAT");
 
+
             string[] testFileLines = File.ReadAllLines("res/employees.txt");
 
             foreach (string line in testFileLines) {

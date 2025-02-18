@@ -30,8 +30,15 @@
   </Class>
   <Class Name="InheritanceLab.PayrollSystem">
     <Position X="10.25" Y="1.25" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="InheritanceLab.PayrollSystem.EmployeeType" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>PayrollSystem.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
       <FileName>PayrollSystem.cs</FileName>
     </TypeIdentifier>
   </Class>

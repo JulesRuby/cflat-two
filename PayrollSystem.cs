@@ -12,10 +12,27 @@ namespace InheritanceLab
     // Hopefully I can use this to work the methods from a consolidated access access
     internal static class PayrollSystem
     {
+        // I'll make an enum to store the employee type wages, because why no over engineer the shit out of a simple task?
+        // Practice I guess, that's why lol... hopefully not bad practice tho
+        // I think we keep this internal since I only really intend to use it in this class for now
+        internal enum EmployeeType { 
+            Salaried,
+            Wages,
+            PartTime,
+            Invalid // Adding an invalid, might make the failing cause more graceful?
+        }
+
+        // Let's try making a lookup for the employee character that feels a bit better...
+        // Associate the enum with the numbers that the empoyeeId starts with
+        private static readonly Dictionary<char, EmployeeType> payTypeMap = new Dictionary<char, EmployeeType>()
+                {
+                    { '0', EmployeeType.Salaried }, { '1', EmployeeType.Salaried }, { '2', EmployeeType.Salaried }, { '3', EmployeeType.Salaried }, { '4', EmployeeType.Salaried },
+                    { '5', EmployeeType.Wages }, { '6', EmployeeType.Wages }, { '7', EmployeeType.Wages },
+                    { '8', EmployeeType.PartTime }, { '9', EmployeeType.PartTime }
+                };
 
         internal static List<Employee>? createEmployeeList(string filepath)
         {
-            char[] salaryNums = { '0', '1', '2', '3', '4' };
             string[] dataList = File.ReadAllLines(filepath);
             List<Employee> employeeList = new List<Employee>();
 
@@ -25,39 +42,63 @@ namespace InheritanceLab
                 string[] lineData = entry.Split(':');
 
                 // acess first index of line (the id) then take the first index of the id to determine type of employee
-                char empCategoryIdentifier = lineData[0][0];
-                Console.WriteLine(empCategoryIdentifier);
+                char empPayIdentifier = lineData[0][0];
+                //EmployeeType payType = EmployeeType.Invalid; // initialize to Invalid 
 
-                switch (empCategoryIdentifier){
-                    case '0':
-                    case '1':
-                    case '2':
-                    case '3':
-                    case '4':
-                        double salary = double.Parse(data[5]);
-                        employeeList.Add(new Salaried(id, name, address, phone, sin, salary));
+                Console.WriteLine(empPayIdentifier);
+
+                // use TryGetValue() method as a ternary to return either the respective pay category, or Invlaid for use in a switch case
+                EmployeeType employeeType = payTypeMap.TryGetValue(empPayIdentifier, out EmployeeType payType) ? payType : EmployeeType.Invalid;
+
+                switch (employeeType)
+                {
+                    case EmployeeType.Salaried:
+                        Console.WriteLine($"{lineData[1]} is a {employeeType} employee!");
                         break;
+                    case EmployeeType.Wages:
+                        Console.WriteLine($"{lineData[1]} is a {employeeType} employee!");
 
-                    case '5':
-                    case '6':
-                    case '7':
-                        double wageRate = double.Parse(data[5]);
-                        employeeList.Add(new Wages(id, name, address, phone, sin, wageRate));
                         break;
+                    case EmployeeType.PartTime:
+                        Console.WriteLine($"{lineData[1]} is a {employeeType} employee!");
 
-                    case '8':
-                    case '9':
-                        double partTimeRate = double.Parse(data[5]);
-                        employeeList.Add(new PartTime(id, name, address, phone, sin, partTimeRate));
                         break;
-
+                    case EmployeeType.Invalid:
+                        Console.WriteLine("Invalid employee identifier!");
+                        break;
                     default:
-                        Console.WriteLine($"Invalid employee ID prefix: {idPrefix}"); // Handle invalid IDs
+                        Console.WriteLine("We don't actually know what happened if you made it this far in the switchcase...");
                         break;
-                    }
-
-                    //Console.WriteLine(entry.Replace(':', '\n'));
                 }
+
+
+
+                //switch (empCategoryIdentifier){
+                //    case '0':
+                //    case '1':
+                //    case '2':
+                //    case '3':
+                //    case '4':
+                //        Salaried empSal = new (lineData[0], lineData[1], lineData[2], lineData[3], long.Parse(lineData[4]), double.Parse(lineData[7])));
+                //        break;
+
+                //    case '5':
+                //    case '6':
+                //    case '7':
+                //        Salaried emp = new Salaried(lineData[0], lineData[1], lineData[2], lineData[3], long.Parse(lineData[4]), double.Parse(lineData[7])));
+
+                //        break;
+
+                //    case '8':
+                //    case '9':
+                //        break;
+
+                //    default:
+                //        Console.WriteLine("Invalid number");
+                //        break;
+                //    }
+
+            }
             return employeeList;
         }
 
