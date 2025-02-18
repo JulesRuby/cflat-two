@@ -50,6 +50,8 @@ namespace InheritanceLab
                 // use TryGetValue() method as a ternary to return either the respective pay category, or Invlaid for use in a switch case
                 EmployeeType employeeType = payTypeMap.TryGetValue(empPayIdentifier, out EmployeeType payType) ? payType : EmployeeType.Invalid;
 
+                Dictionary<string, object> employeeDataDict = PullUserData(lineData, employeeType);
+
                 switch (employeeType)
                 {
                     case EmployeeType.Salaried:
@@ -102,5 +104,42 @@ namespace InheritanceLab
             return employeeList;
         }
 
+        internal static Dictionary<string, object> PullUserData(string[] employeeRawData, EmployeeType payStyle)
+        {
+            // Instantiate empty employee object/dict
+            Dictionary<string, object> employeeDict = new Dictionary<string, object>();
+
+            // yank out the user data from the line string[]
+            string id = employeeRawData[0];
+            string name = employeeRawData[1];
+            string address = employeeRawData[2];
+            string phone = employeeRawData[3];
+            long sin = long.Parse(employeeRawData[4]);
+            string date = employeeRawData[5];
+            string company = employeeRawData[6];
+            double rate = double.Parse(employeeRawData[7]);
+
+            employeeDict.Add("id", id);
+            employeeDict.Add("name", name);
+            employeeDict.Add("address", address);
+            employeeDict.Add("phone", phone);
+            employeeDict.Add("sin", sin);
+            employeeDict.Add("company", company);
+            employeeDict.Add("rate", rate);
+
+            if (payStyle != EmployeeType.Salaried){
+                double hours = double.Parse(employeeRawData[8]);
+                employeeDict.Add("hours", hours);
+            }
+
+            //Console.WriteLine(employeeDict.ToString());
+            string log = string.Join("\n", employeeDict.Select(kv => $"{kv.Key}: {kv.Value}"));
+
+            Console.WriteLine(log);
+
+
+            return employeeDict;
+        }
+   
     }
 }
